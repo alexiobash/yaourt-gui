@@ -18,8 +18,8 @@ install: all
 	$(INSTALL) -d $(DESTDIR)$(deskdir)
 	$(INSTALL) -m755 yaourt-gui $(DESTDIR)$(bindir)
 	$(INSTALL) -m755 yglogo $(DESTDIR)$(config)
-	$(INSTALL) -m644 COPYING $(DESTDIR)$(config)
-	$(INSTALL) -m644 AUTHORS $(DESTDIR)$(config)
+	$(INSTALL) -m644 LICENSE $(DESTDIR)$(config)
+	$(INSTALL) -m644 README.md $(DESTDIR)$(config)
 	$(INSTALL) -m644 yaourtgui.png $(DESTDIR)$(icons)
 	$(INSTALL) -m644 Yaourt-Gui.desktop $(DESTDIR)$(deskdir)
 	for file in po/*.po; \
