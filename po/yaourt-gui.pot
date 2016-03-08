@@ -1,0 +1,245 @@
+ yaourt-gui default.po file
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: yaourt-gui 0.8\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-04-21 18:54+0200\n"
+"PO-Revision-Date: 2012-02-17 18:58+0100\n"
+"Last-Translator: ale_xiovk <alexiobash@gmail.com>\n"
+"Language-Team: www.dark-linux.net <alexiobash@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../yaourt-gui:37
+msgid "not found"
+msgstr ""
+
+#: ../yaourt-gui:41
+msgid "[1] Sync DB		[9]  Search & Install	[17] Set Proxy"
+msgstr ""
+
+#: ../yaourt-gui:42
+msgid "[2] Update System	[10] Belongs To Files	[18] Remove Proxy"
+msgstr ""
+
+#: ../yaourt-gui:43
+msgid "[3] Update force mode	[11] Info Packages	[19] Edit pacman.conf"
+msgstr ""
+
+#: ../yaourt-gui:44
+msgid "[4] Install Packages	[12] Clear Cache	[20] Edit yaourtrc"
+msgstr ""
+
+#: ../yaourt-gui:45
+msgid "[5] Remove Packages	[13] PacDiffViewer      [L] Log Pacman"
+msgstr ""
+
+#: ../yaourt-gui:46
+msgid "[6] Update Packages	[14] Pacman DB Upgrade	[H] Help yaourt-gui"
+msgstr ""
+
+#: ../yaourt-gui:47
+msgid "[7] Remove Dependencies	[15] Pacman Optimize    [Q] Quit"
+msgstr ""
+
+#: ../yaourt-gui:48
+msgid "[8] Search Packages     [16] Yaourt Stats"
+msgstr ""
+
+#: ../yaourt-gui:50
+msgid "Run a Command or Number"
+msgstr ""
+
+#: ../yaourt-gui:56
+msgid "DB Synchronization in progress..."
+msgstr ""
+
+#: ../yaourt-gui:57
+msgid "COMMAND"
+msgstr ""
+
+#: ../yaourt-gui:71
+msgid "Update in progress.... !!!Please Wait!!!"
+msgstr ""
+
+#: ../yaourt-gui:75
+msgid "Press ENTER to display the Menu"
+msgstr ""
+
+#: ../yaourt-gui:100
+msgid "Which packages do you want install?"
+msgstr ""
+
+#: ../yaourt-gui:115
+msgid "Which Package do you want remove?"
+msgstr ""
+
+#: ../yaourt-gui:130
+msgid "Which packages do you want upgrade?"
+msgstr ""
+
+#: ../yaourt-gui:158
+msgid "Which packages do you want search?"
+msgstr ""
+
+#: ../yaourt-gui:173
+msgid "Which packages do you want search and install?"
+msgstr ""
+
+#: ../yaourt-gui:251
+msgid "Upgrade successfully"
+msgstr ""
+
+#: ../yaourt-gui:288
+msgid "Is a Auth Proxy? y/n [default yes]"
+msgstr ""
+
+#: ../yaourt-gui:291
+msgid "y"
+msgstr ""
+
+#: ../yaourt-gui:293
+msgid "Write Username"
+msgstr ""
+
+#: ../yaourt-gui:295
+msgid "Write Password"
+msgstr ""
+
+#: ../yaourt-gui:298
+msgid "Write Ip or Hostname Proxy"
+msgstr ""
+
+#: ../yaourt-gui:300
+msgid "Write port Proxy"
+msgstr ""
+
+#: ../yaourt-gui:312
+msgid "Proxy set successfully"
+msgstr ""
+
+#: ../yaourt-gui:322
+msgid "The proxy is not set!!!!"
+msgstr ""
+
+#: ../yaourt-gui:368
+msgid "!!!WARNING!!! Unknown command!!"
+msgstr ""
+
+#: ../yaourt-gui:377
+msgid "Do you really want remove proxy? y/n  [default yes]"
+msgstr ""
+
+#: ../yaourt-gui:383
+msgid "!!! Proxy Removed !!!"
+msgstr ""
+
+#: ../yaourt-gui:406
+msgid "Which programs do you want use?"
+msgstr ""
+
+#: ../yaourt-gui:407
+msgid "Write"
+msgstr ""
+
+#: ../yaourt-gui:493
+msgid "GUIDE USE SCRIPT"
+msgstr ""
+
+#: ../yaourt-gui:495
+msgid "To synchronize DB"
+msgstr ""
+
+#: ../yaourt-gui:496
+msgid "To update the system"
+msgstr ""
+
+#: ../yaourt-gui:497
+msgid "To update the system in force mode"
+msgstr ""
+
+#: ../yaourt-gui:498
+msgid "To install a packages"
+msgstr ""
+
+#: ../yaourt-gui:499
+msgid "To remove a packages"
+msgstr ""
+
+#: ../yaourt-gui:500
+msgid "To update a packages"
+msgstr ""
+
+#: ../yaourt-gui:501
+msgid "To remove unused dependencies"
+msgstr ""
+
+#: ../yaourt-gui:502
+msgid "To search a packages"
+msgstr ""
+
+#: ../yaourt-gui:503
+msgid "To search and install a packages"
+msgstr ""
+
+#: ../yaourt-gui:504
+msgid "To view a file belonging"
+msgstr ""
+
+#: ../yaourt-gui:505
+msgid "To query local database e info packages"
+msgstr ""
+
+#: ../yaourt-gui:506
+msgid "To clean a cache"
+msgstr ""
+
+#: ../yaourt-gui:507
+msgid "To Manage .pac* files"
+msgstr ""
+
+#: ../yaourt-gui:508
+msgid "To run pacman-db-upgrade"
+msgstr ""
+
+#: ../yaourt-gui:510
+msgid "Press ENTER to continue"
+msgstr ""
+
+#: ../yaourt-gui:517
+msgid "To optimize pacman"
+msgstr ""
+
+#: ../yaourt-gui:518
+msgid "To see the statistic of yaourt"
+msgstr ""
+
+#: ../yaourt-gui:519
+msgid "To set a proxy"
+msgstr ""
+
+#: ../yaourt-gui:520
+msgid "To remove a proxy"
+msgstr ""
+
+#: ../yaourt-gui:521
+msgid "To modify"
+msgstr ""
+
+#: ../yaourt-gui:523
+msgid "To view a log file"
+msgstr ""
+
+#: ../yaourt-gui:524
+msgid "To see this menu"
+msgstr ""
+
+#: ../yaourt-gui:525
+msgid "To exit the script"
+msgstr ""
+
+#: ../yaourt-gui:537
+msgid "Do you really want exit? y/n [default yes]"
+msgstr ""
