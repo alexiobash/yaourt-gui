@@ -2,10 +2,13 @@
 # Yaourt-Gui is a bash gui for yaourt
 #
 # Creation-Date: 2011-02-28
-# Revision-Date: 2015-06-23
+# Revision-Date: 2018-03-05
 #
+###### AUTHOR ######################
 # Support: http://www.alexiobash.com
 # Mail: support@alexiobash.com
+##### MODIFIED ON 2018 BY ##################
+# patrickdupre : 2018-03-04
 
 ### Set ###
 TEXTDOMAINDIR=/usr/share/locale
@@ -26,544 +29,393 @@ CONFIG=/usr/share/yaourt-gui
 export TEXTDOMAINDIR=/usr/share/locale
 export TEXTDOMAIN=yaourt-gui
 
-### Start Script ###
-gost () {
-if [ -f $PROFD/proxy.sh ]; then
-	source $PROFD/proxy.sh
-fi
-    clear	
-if [ -f $CONFIG/yglogo ]; then
-	$CONFIG/yglogo
-    echo -e ""
-else
-    echo -e ""$RED"$CONFIG/yglogo $(gettext 'not found')!!!$NC"
-fi
-    echo -e "$GREL                  YAOURT-GUI $VER - A bash GUI for Yaourt                 $NC"
-    echo -e ""
-    echo -e "$(gettext '[1] Sync DB		[9]  Search & Install	[17] Set Proxy')"
-    echo -e "$(gettext '[2] Update System	[10] Belongs To Files	[18] Remove Proxy')"
-    echo -e "$(gettext '[3] Update force mode	[11] Info Packages	[19] Edit pacman.conf')"
-    echo -e "$(gettext '[4] Install Packages	[12] Clear Cache	[20] Edit yaourtrc')"
-    echo -e "$(gettext '[5] Remove Packages	[13] PacDiffViewer      [L] Log Pacman')"
-    echo -e "$(gettext '[6] Update Packages	[14] Pacman DB Upgrade	[H] Help yaourt-gui')"
-    echo -e "$(gettext '[7] Remove Dependencies	[15] Pacman Optimize    [Q] Quit')"
-    echo -e "$(gettext '[8] Search Packages     [16] Yaourt Stats')"
-    echo -e ""
-    echo -e ""$YELLOW"$(gettext 'Run a Command or Number'):$NC"
-  read opt
-case $opt in
-
-### SyncDB ###
-1|"yaourt -Sy")
-    echo -e "$GRE==> $(gettext 'DB Synchronization in progress...')$NC"
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Sy $NC "
-  yaourt -Sy
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
+### Function pause ###
+function pause(){
+	echo -e ""
+	echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
+	read -p "$*"
 }
-  pause
-gost
-;;
+### Start Script ###
+while true
+do
+	if [ -f $PROFD/proxy.sh ]; then
+		source $PROFD/proxy.sh
+	fi
+	clear
+	if [ -f $CONFIG/yglogo ]; then
+		$CONFIG/yglogo
+		echo -e ""
+	else
+		echo -e ""$RED"$CONFIG/yglogo $(gettext 'not found')!!!$NC"
+	fi
+	echo -e "$GREL                yaourt-GUI $VER - A bash GUI for Yaourt                 $NC"
+	echo -e ""
+	echo -e "$(gettext '[1] Sync DB		[9]  Search & Install	[17] Set Proxy')"
+	echo -e "$(gettext '[2] Update System	[10] Belongs To Files	[18] Remove Proxy')"
+	echo -e "$(gettext '[3] Update force mode	[11] Info Packages	[19] Edit pacman.conf')"
+	echo -e "$(gettext '[4] Install Packages	[12] Clear Cache	[20] Edit yaourtrc')"
+	echo -e "$(gettext '[5] Remove Packages	[13] PacDiffViewer      [L] Log Pacman')"
+	echo -e "$(gettext '[6] Update Packages	[14] Pacman DB Upgrade	[H] Help yaourt-gui')"
+	echo -e "$(gettext '[7] Remove Dependencies	[15] Pacman Optimize    [Q] Quit')"
+	echo -e "$(gettext '[8] Search Packages     [16] Yaourt Stats')"
+	echo -e ""
+	echo -e ""$YELLOW"$(gettext 'Run a Command or Number'):$NC"
+	read opt
+
+	case $opt in
+### SyncDB ###
+	1|"yaourt -Sy")
+		echo -e "$GRE==> $(gettext 'DB Synchronization in progress...')$NC"
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Sy $NC "
+		yaourt -Sy
+		pause
+		;;
 
 #### UpdateSystem ####
-2|"yaourt -Sua")
-    echo -e ""
-    echo -e "$GRE==> $(gettext 'Update in progress.... !!!Please Wait!!!')$NC"
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Sua $NC"
-  yaourt -Sua
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	2|"yaourt -Sua")
+		echo -e ""
+		echo -e "$GRE==> $(gettext 'Update in progress.... !!!Please Wait!!!')$NC"
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Sua $NC"
+		yaourt -Sua
+		pause
+		;;
 
 #### UpdateSystem Force mode ####
-3|"yaourt -Suaf")
-    echo -e ""
-    echo -e "$GRE==> $(gettext 'Update in progress.... !!!Please Wait!!!')$NC"
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Sua --force $NC"
-  yaourt -Sua --force
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	3|"yaourt -Suaf")
+		echo -e ""
+		echo -e "$GRE==> $(gettext 'Update in progress.... !!!Please Wait!!!')$NC"
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Sua --force $NC"
+		yaourt -Sua --force
+		pause
+		;;
 
 ### InstallPackages ###
-4|"yaourt -S")
-    echo -e "$GRE $(gettext 'Which packages do you want install?')$NC"
-  read PKG 
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -S $PKG $NC"
-  yaourt -S $PKG
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	4|"yaourt -S")
+		echo -e "$GRE $(gettext 'Which packages do you want install?')$NC"
+		read PKG 
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -S $PKG $NC"
+		yaourt -S $PKG
+		pause
+		;;
 
 ### RemovePackages ###
-5|"yaourt -R")
-    echo -e "$GRE $(gettext 'Which Package do you want remove?')$NC"
-  read PKR 
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -R $PKR $NC"
-  yaourt -R $PKR
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	5|"yaourt -R")
+		echo -e "$GRE $(gettext 'Which Package do you want remove?')$NC"
+		read PKR 
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -R $PKR $NC"
+		yaourt -R $PKR
+		pause
+		;;
 
 ### UpdatePackages ###
-6|"yaourt -U")
-    echo -e "$GRE $(gettext 'Which packages do you want upgrade?') $NC"
-  read PKAG
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -U $PKAG $NC"
-  yaourt -U $PKAG 
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	6|"yaourt -U")
+		echo -e "$GRE $(gettext 'Which packages do you want upgrade?') $NC"
+		read PKAG
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -U $PKAG $NC"
+		yaourt -U $PKAG 
+		pause
+		;;
 
 ### RemoveDependencies ###
-7|"yaourt -Qdtq")
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -R "\$"(yaourt -Qdtq) $NC"
-  yaourt -R $(yaourt -Qdtq)
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	7|"yaourt -Qdtq")
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -R "\$"(yaourt -Qdtq) $NC"
+		yaourt -R $(yaourt -Qdtq)
+		pause
+		;;
 
 ### Search Packages ###
-8|"yaourt -Ss")
-    echo -e "$GRE $(gettext 'Which packages do you want search?') $NC"
-  read PKAGE
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Ss $PKAGE $NC"
-  yaourt -Ss $PKAGE 
-      echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	8|"yaourt -Ss")
+		echo -e "$GRE $(gettext 'Which packages do you want search?') $NC"
+		read PKAGE
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Ss $PKAGE $NC"
+		yaourt -Ss $PKAGE 
+		pause
+		;;
 
 ### Search & Install ###
-9|"yaourt")
-    echo -e "$GRE $(gettext 'Which packages do you want search and install?') $NC"
-  read PKAGE
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt $PKAGE $NC"
-  yaourt $PKAGE 
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	9|"yaourt")
+		echo -e "$GRE $(gettext 'Which packages do you want search and install?') $NC"
+		read PKAGE
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt $PKAGE $NC"
+		yaourt $PKAGE 
+		pause
+		;;
 
 ### belong file ###
-10|"yaourt -Qo")
-    echo -e "$GRE $(gettext 'Which packages do you want search?') $NC"
-  read PKAGE3
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Qo $PKAGE3 $NC"
-  yaourt -Qo $PKAGE3 
-      echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	10|"yaourt -Qo")
+		echo -e "$GRE $(gettext 'Which packages do you want search?') $NC"
+		read PKAGE3
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Qo $PKAGE3 $NC"
+		yaourt -Qo $PKAGE3 
+		pause
+		;;
 
 ### InfoPackage ###
-11|"yaourt -Qi")
-    echo -e ""$GRE" $(gettext 'Which packages do you want search?')$NC"
-  read PKS
-  clear
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Qi $PKS $NC"
-    echo -e	""
-  yaourt -Qi $PKS
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	11|"yaourt -Qi")
+		echo -e ""$GRE" $(gettext 'Which packages do you want search?')$NC"
+		read PKS
+		clear
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Qi $PKS $NC"
+		echo -e	""
+		yaourt -Qi $PKS
+		pause
+		;;
 
 ### ClearCache ###
-12|"yaourt -Scc")
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Scc $NC"	
-  yaourt -Scc
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	12|"yaourt -Scc")
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -Scc $NC"	
+		yaourt -Scc
+		pause
+		;;
 
 ### PacDiffViewer ###
-13|"yaourt -C")
-  clear
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -C $NC"
-    echo -e""
-  yaourt -C
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	13|"yaourt -C")
+		clear
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt -C $NC"
+		echo -e""
+		yaourt -C
+		pause
+		;;
 
 ### pacman-db-upgrade ###
-14|"yaourt -C")
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): pacman-db-upgrade$NC"
-    echo -e""
-  sudo pacman-db-upgrade  
-    echo -e ""$GRE"$(gettext 'Upgrade successfully')$NC"
-sleep 3
-gost
-;;
+	14|"yaourt -C")
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): pacman-db-upgrade$NC"
+		echo -e""
+		sudo pacman-db-upgrade  
+		echo -e ""$GRE"$(gettext 'Upgrade successfully')$NC"
+		sleep 3
+		;;
 
 ### pacman-optimize ###
-15|"yaourt -C")
-  clear
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): pacman-optimize$NC"
-    echo -e""
-  sudo pacman-optimize  
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	15|"yaourt -C")
+		clear
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): pacman-optimize$NC"
+		echo -e""
+		sudo pacman-optimize  
+		pause
+		;;
 
 ### Yaourt Statistic ###
-16|"yaourt --stats")
-  clear
-    echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt --stats $NC"
-    echo -e""
-  yaourt --stats
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	16|"yaourt --stats")
+		clear
+		echo -e "$YELLOW==> $(gettext 'COMMAND'): yaourt --stats $NC"
+		echo -e""
+		yaourt --stats
+		pause
+		;;
 
 ### SetProxy ### user:password@
-17|"set proxy")
-    echo -e "$GRE $(gettext 'Is a Auth Proxy? y/n [default yes]')$NC"
-  read SNI
-case $SNI in
-$(gettext 'y')|"")
-    echo -e ""
-    echo -e "$YELLOW$(gettext 'Write Username')$NC"
-  read USRNAME	
-    echo -e "$YELLOW$(gettext 'Write Password')$NC"
-  read -es PASSWPR
-    echo -e ""
-    echo -e "$YELLOW$(gettext 'Write Ip or Hostname Proxy')$NC"
-  read PROXY
-    echo -e "$YELLOW$(gettext 'Write port Proxy')$NC"
-  read PORT
-    echo -e "#!/bin/bash" > /home/$USER/proxy.sh			
-    echo -e "export http_proxy='"http://$USRNAME:$PASSWPR@$PROXY:$PORT"'" >> /home/$USER/proxy.sh
-    echo -e "export https_proxy='"http://$USRNAME:$PASSWPR@$PROXY:$PORT"'" >> /home/$USER/proxy.sh
-    echo -e "export ftp_proxy='"http://$USRNAME:$PASSWPR@$PROXY:$PORT"'" >> /home/$USER/proxy.sh
-  sudo mv /home/$USER/proxy.sh $PROFD
-  sudo chmod +x $PROFD/proxy.sh
-  sudo chown root:root $PROFD/proxy.sh
-  source $PROFD/proxy.sh
-if [ -f $PROFD/proxy.sh ];then
-    echo -e ""
-    echo -e "$GRE==> $(gettext 'Proxy set successfully')$NC"
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-else
-    echo -e ""
-    echo -e ""$RED"==> $(gettext 'The proxy is not set!!!!'):$NC"
-    echo -e ""
-  sleep 2
-gost
-fi
-;;
-# NO PROXY AUTH
-n|N)
-    echo -e ""
-    echo -e "$YELLOW$(gettext 'Write Ip or Hostname Proxy')$NC"
-  read PROXY
-    echo -e "$YELLOW$(gettext 'Write port Proxy')$NC"
-  read PORT
-    echo -e "#!/bin/bash" > /home/$USER/proxy.sh	
-    echo -e "export http_proxy='"http://$PROXY:$PORT"'" >> /home/$USER/proxy.sh
-    echo -e "export https_proxy='"http://$PROXY:$PORT"'" >> /home/$USER/proxy.sh
-    echo -e "export ftp_proxy='"http://$PROXY:$PORT"'" >> /home/$USER/proxy.sh
-  sudo mv /home/$USER/proxy.sh $PROFD
-  sudo chmod +x $PROFD/proxy.sh
-  sudo chown root:root $PROFD/proxy.sh
-  source $PROFD/proxy.sh
-if [ -f $PROFD/proxy.sh ];then
-    echo -e ""
-    echo -e "$GRE==> $(gettext 'Proxy set successfully')$NC"
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-else
-    echo -e ""
-    echo -e ""$RED"==> $(gettext 'The proxy is not set!!!!'):$NC"
-    echo -e ""
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-fi
-;;
-*)
-    echo -e ""
-    echo -e ""$RED"$(gettext '!!!WARNING!!! Unknown command!!') $NC"
-  sleep 1
-gost
-;;
-esac
-;;
+	17|"set proxy")
+		echo -e "$GRE $(gettext 'Is a Auth Proxy? y/n [default yes]')$NC"
+		read SNI
+		case $SNI in
+		$(gettext 'y')|"")
+			echo -e ""
+			echo -e "$YELLOW$(gettext 'Write Username')$NC"
+			read USRNAME	
+			echo -e "$YELLOW$(gettext 'Write Password')$NC"
+			read -es PASSWPR
+			echo -e ""
+			echo -e "$YELLOW$(gettext 'Write Ip or Hostname Proxy')$NC"
+			read PROXY
+			echo -e "$YELLOW$(gettext 'Write port Proxy')$NC"
+			read PORT
+			echo -e "#!/bin/bash" > /home/$USER/proxy.sh			
+			echo -e "export http_proxy='"http://$USRNAME:$PASSWPR@$PROXY:$PORT"'" >> /home/$USER/proxy.sh
+			echo -e "export https_proxy='"http://$USRNAME:$PASSWPR@$PROXY:$PORT"'" >> /home/$USER/proxy.sh
+			echo -e "export ftp_proxy='"http://$USRNAME:$PASSWPR@$PROXY:$PORT"'" >> /home/$USER/proxy.sh
+			sudo mv /home/$USER/proxy.sh $PROFD
+			sudo chmod +x $PROFD/proxy.sh
+			sudo chown root:root $PROFD/proxy.sh
+			source $PROFD/proxy.sh
+			if [ -f $PROFD/proxy.sh ];then
+				echo -e ""
+				echo -e "$GRE==> $(gettext 'Proxy set successfully')$NC"
+				pause
+			else
+				echo -e ""
+				echo -e ""$RED"==> $(gettext 'The proxy is not set!!!!'):$NC"
+				echo -e ""
+				sleep 2
+			fi
+			;;
+	# NO PROXY AUTH
+		n|N)
+			echo -e ""
+			echo -e "$YELLOW$(gettext 'Write Ip or Hostname Proxy')$NC"
+			read PROXY
+			echo -e "$YELLOW$(gettext 'Write port Proxy')$NC"
+			read PORT
+			echo -e "#!/bin/bash" > /home/$USER/proxy.sh	
+			echo -e "export http_proxy='"http://$PROXY:$PORT"'" >> /home/$USER/proxy.sh
+			echo -e "export https_proxy='"http://$PROXY:$PORT"'" >> /home/$USER/proxy.sh
+			echo -e "export ftp_proxy='"http://$PROXY:$PORT"'" >> /home/$USER/proxy.sh
+			sudo mv /home/$USER/proxy.sh $PROFD
+			sudo chmod +x $PROFD/proxy.sh
+			sudo chown root:root $PROFD/proxy.sh
+			source $PROFD/proxy.sh
+			if [ -f $PROFD/proxy.sh ];then
+				echo -e ""
+				echo -e "$GRE==> $(gettext 'Proxy set successfully')$NC"
+				pause
+			else
+				echo -e ""
+				echo -e ""$RED"==> $(gettext 'The proxy is not set!!!!'):$NC"
+				echo -e ""
+				pause
+			fi
+			;;
+		*)
+			echo -e ""
+			echo -e ""$RED"$(gettext '!!!WARNING!!! Unknown command!!') $NC"
+			sleep 1
+			;;
+		esac
+		;;
 
 ### Remove Proxy ###
-18|"remove proxy")
-    echo -e "$GRE$(gettext 'Do you really want remove proxy? y/n  [default yes]')$NC"
-  read SNE
-case $SNE in
-$(gettext 'y')|"")
-  sudo rm -rf $PROFD/proxy.sh
-    echo -e ""
-    echo -e "$RED==> $(gettext '!!! Proxy Removed !!!') $NC"
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
-n|N)
-gost
-;;
-*)
-    echo -e ""
-    echo -e ""$RED"$(gettext '!!!WARNING!!! Unknown command!!') $NC"
-  sleep 1
-gost
-;;
-esac
-;;
+	18|"remove proxy")
+		echo -e "$GRE$(gettext 'Do you really want remove proxy? y/n  [default yes]')$NC"
+		read SNE
+		case $SNE in
+		$(gettext 'y')|"")
+			sudo rm -rf $PROFD/proxy.sh
+			echo -e ""
+			echo -e "$RED==> $(gettext '!!! Proxy Removed !!!') $NC"
+			pause
+			;;
+		n|N)
+			;;
+		*)
+			echo -e ""
+			echo -e ""$RED"$(gettext '!!!WARNING!!! Unknown command!!') $NC"
+			sleep 1
+			;;
+		esac
+		;;
 
 ### edit pacman.conf ###
-19|"edit pacman.conf")
-    echo -e ""$GRE"$(gettext 'Which programs do you want use?')$NC"
-    echo -e ""$GRE"$(gettext 'Write'): [N]nano [V]vim $NC"
-  read PROGRAM
-case $PROGRAM in
-N|n|nano)
-  sudo nano /etc/pacman.conf
-gost
-;;
-V|v|vi|VI|vim|VIM)
-if [ -f /usr/bin/vim ]; then
-  sudo vim /etc/pacman.conf
-else
-  sudo vi /etc/pacman.conf
-fi
-gost
-;;
-esac
-gost
-;;
+	19|"edit pacman.conf")
+		echo -e ""$GRE"$(gettext 'Which programs do you want use?')$NC"
+		echo -e ""$GRE"$(gettext 'Write'): [N]nano [V]vim $NC"
+		read PROGRAM
+		case $PROGRAM in
+		N|n|nano)
+			sudo nano /etc/pacman.conf
+			;;
+		V|v|vi|VI|vim|VIM)
+			if [ -f /usr/bin/vim ]; then
+				sudo vim /etc/pacman.conf
+			else
+				sudo vi /etc/pacman.conf
+			fi
+			;;
+		esac
+		;;
 
 ### edit yaourtrc ###
-20|"edit yaourtrc")
-    echo -e ""$GRE"$(gettext 'Which programs do you want use?')$NC"
-    echo -e ""$GRE"$(gettext 'Write'): [N]nano [V]vim $NC"
-  read PROGRAM
-case $PROGRAM in
-N|n|nano)
-  sudo nano /etc/yaourtrc
-gost
-;;
-V|v|vi|VI|vim|VIM)
-if [ -f /usr/bin/vim ]; then
-  sudo vim /etc/yaourtrc
-else
-  sudo vi /etc/yaourtrc
-fi
-gost
-;;
-esac
-gost
-;;
+	20|"edit yaourtrc")
+		echo -e ""$GRE"$(gettext 'Which programs do you want use?')$NC"
+		echo -e ""$GRE"$(gettext 'Write'): [N]nano [V]vim $NC"
+		read PROGRAM
+		case $PROGRAM in
+		N|n|nano)
+			sudo nano /etc/yaourtrc
+			;;
+		V|v|vi|VI|vim|VIM)
+			if [ -f /usr/bin/vim ]; then
+				sudo vim /etc/yaourtrc
+			else
+				sudo vi /etc/yaourtrc
+			fi
+			;;
+		esac
+		;;
 
 ### Log Pacman file ###
-l|L|log|"log pacman")
-    echo -e ""$GRE"$(gettext 'Which programs do you want use?')$NC"
-    echo -e ""$GRE"$(gettext 'Write'): [M]more [C]cat [L]less]$NC"
-  read PROGRAM
-case $PROGRAM in
-l|L|less)
-clear
-  sudo less /var/log/pacman.log
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
-m|M|more)
-  sudo more /var/log/pacman.log
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
-c|C|cat)
-  sudo cat /var/log/pacman.log
-    echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
-esac
-gost
-;;
+	l|L|log|"log pacman")
+		echo -e ""$GRE"$(gettext 'Which programs do you want use?')$NC"
+		echo -e ""$GRE"$(gettext 'Write'): [M]more [C]cat [L]less]$NC"
+		read PROGRAM
+		case $PROGRAM in
+		l|L|less)
+			clear
+			sudo less /var/log/pacman.log
+			pause
+			;;
+		m|M|more)
+			sudo more /var/log/pacman.log
+			pause
+			;;
+		c|C|cat)
+			sudo cat /var/log/pacman.log
+			pause
+			;;
+		esac
+	;;
 
 ### Help ###
-H|h)
-  clear
-    echo -e ""
-    echo -e "$GREL !!!$(gettext 'GUIDE USE SCRIPT')!!! $NC"
-    echo -e ""
-      echo -e "$YELLOW==>$GRE [1]$NC "$(gettext 'To synchronize DB')""
-      echo -e "$YELLOW==>$GRE [2]$NC "$(gettext 'To update the system')""
-      echo -e "$YELLOW==>$GRE [3]$NC "$(gettext 'To update the system in force mode')""
-      echo -e "$YELLOW==>$GRE [4]$NC "$(gettext 'To install a packages')""
-      echo -e "$YELLOW==>$GRE [5]$NC "$(gettext 'To remove a packages')""
-      echo -e "$YELLOW==>$GRE [6]$NC "$(gettext 'To update a packages')""
-      echo -e "$YELLOW==>$GRE [7]$NC "$(gettext 'To remove unused dependencies')""
-      echo -e "$YELLOW==>$GRE [8]$NC "$(gettext 'To search a packages')""
-      echo -e "$YELLOW==>$GRE [9]$NC "$(gettext 'To search and install a packages')""
-      echo -e "$YELLOW==>$GRE [10]$NC "$(gettext 'To view a file belonging')""
-      echo -e "$YELLOW==>$GRE [11]$NC "$(gettext 'To query local database e info packages')""
-      echo -e "$YELLOW==>$GRE [12]$NC "$(gettext 'To clean a cache')""
-      echo -e "$YELLOW==>$GRE [13]$NC "$(gettext 'To Manage .pac* files')""
-      echo -e "$YELLOW==>$GRE [14]$NC "$(gettext 'To run pacman-db-upgrade')""
-    echo -e ""
-    echo -e ""$GRE"==> $(gettext 'Press ENTER to continue')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-clear
-      echo -e ""
-      echo -e "$YELLOW==>$GRE [15]$NC "$(gettext 'To optimize pacman')""
-      echo -e "$YELLOW==>$GRE [16]$NC "$(gettext 'To see the statistic of yaourt')""
-      echo -e "$YELLOW==>$GRE [17]$NC "$(gettext 'To set a proxy')""
-      echo -e "$YELLOW==>$GRE [18]$NC "$(gettext 'To remove a proxy')""
-      echo -e "$YELLOW==>$GRE [19]$NC "$(gettext 'To modify') /etc/pacman.conf""
-      echo -e "$YELLOW==>$GRE [20]$NC "$(gettext 'To modify') /etc/yaourtrc""
-      echo -e "$YELLOW==>$GRE [L]$NC "$(gettext 'To view a log file')": /var/log/pacman.log"    
-      echo -e "$YELLOW==>$GRE [H]$NC "$(gettext 'To see this menu')""
-      echo -e "$YELLOW==>$GRE [Q]$NC "$(gettext 'To exit the script')""
-echo -e ""
-    echo -e ""$GRE"$(gettext 'Press ENTER to display the Menu')$NC"
-  function pause(){
-  read -p "$*"
-}
-  pause
-gost
-;;
+	H|h)
+		clear
+		echo -e ""
+		echo -e "$GREL !!!$(gettext 'GUIDE USE SCRIPT')!!! $NC"
+		echo -e ""
+		echo -e "$YELLOW==>$GRE [1]$NC "$(gettext 'To synchronize DB')""
+		echo -e "$YELLOW==>$GRE [2]$NC "$(gettext 'To update the system')""
+		echo -e "$YELLOW==>$GRE [3]$NC "$(gettext 'To update the system in force mode')""
+		echo -e "$YELLOW==>$GRE [4]$NC "$(gettext 'To install a packages')""
+		echo -e "$YELLOW==>$GRE [5]$NC "$(gettext 'To remove a packages')""
+		echo -e "$YELLOW==>$GRE [6]$NC "$(gettext 'To update a packages')""
+		echo -e "$YELLOW==>$GRE [7]$NC "$(gettext 'To remove unused dependencies')""
+		echo -e "$YELLOW==>$GRE [8]$NC "$(gettext 'To search a packages')""
+		echo -e "$YELLOW==>$GRE [9]$NC "$(gettext 'To search and install a packages')""
+		echo -e "$YELLOW==>$GRE [10]$NC "$(gettext 'To view a file belonging')""
+		echo -e "$YELLOW==>$GRE [11]$NC "$(gettext 'To query local database e info packages')""
+		echo -e "$YELLOW==>$GRE [12]$NC "$(gettext 'To clean a cache')""
+		echo -e "$YELLOW==>$GRE [13]$NC "$(gettext 'To Manage .pac* files')""
+		echo -e "$YELLOW==>$GRE [14]$NC "$(gettext 'To run pacman-db-upgrade')""
+		pause
+		clear
+		echo -e ""
+		echo -e "$YELLOW==>$GRE [15]$NC "$(gettext 'To optimize pacman')""
+		echo -e "$YELLOW==>$GRE [16]$NC "$(gettext 'To see the statistic of yaourt')""
+		echo -e "$YELLOW==>$GRE [17]$NC "$(gettext 'To set a proxy')""
+		echo -e "$YELLOW==>$GRE [18]$NC "$(gettext 'To remove a proxy')""
+		echo -e "$YELLOW==>$GRE [19]$NC "$(gettext 'To modify') /etc/pacman.conf""
+		echo -e "$YELLOW==>$GRE [20]$NC "$(gettext 'To modify') /etc/yaourtrc""
+		echo -e "$YELLOW==>$GRE [L]$NC "$(gettext 'To view a log file')": /var/log/pacman.log"    
+		echo -e "$YELLOW==>$GRE [H]$NC "$(gettext 'To see this menu')""
+		echo -e "$YELLOW==>$GRE [Q]$NC "$(gettext 'To exit the script')""
+		pause
+		;;
 
 ### Quit ###
-Q|q|quit|exit)
-    echo -e ""$GRE"$(gettext 'Do you really want exit? y/n [default yes]')$NC"
-  read SNE
-case $SNE in
-$(gettext 'y')|"")
-  clear
-    echo -e "$GREL                  YAOURT-GUI $VER - A bash GUI for Yaourt                 $NC"
-  exit
-;;
-n|N)
-gost
-;;
-*)
-    echo -e ""
-    echo -e ""$RED"$(gettext '!!!WARNING!!! Unknown command!!') $NC"
-  sleep 1
-gost
-;;
-esac
-;;
+	Q|q|quit|exit)
+		echo -e ""$GRE"$(gettext 'Do you really want exit? y/n [default yes]')$NC"
+		read SNE
+		case $SNE in
+		$(gettext 'y')|"")
+			clear
+			echo -e "$GREL                yaourt-GUI $VER - A bash GUI for Yaourt                 $NC"
+			exit
+			;;
+		n|N)
+			;;
+		*)
+			echo -e ""
+			echo -e ""$RED"$(gettext '!!!WARNING!!! Unknown command!!') $NC"
+			sleep 1
+			;;
+		esac
+		;;
 
 ### error ###
-*)
-    echo -e ""
-    echo -e ""$RED"$(gettext '!!!WARNING!!! Unknown command!!') $NC"
-  sleep 1
-gost
-;;
-esac
-}
-gost
+	*)
+		echo -e ""
+		echo -e ""$RED"$(gettext '!!!WARNING!!! Unknown command!!') $NC"
+		sleep 1
+		;;
+	esac
+done
+
 ### end script ###
